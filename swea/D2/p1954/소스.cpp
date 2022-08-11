@@ -9,16 +9,55 @@ int main() {
 	cout.tie();
 
 	int T, n;
-	int MAP[10][10];
 	cin >> T;
 	for (int tc = 1; tc <= T; tc++)
 	{
-		MAP[10][10] = { 0 };
+		int MAP[10][10] = { 0 };
 		int r = 0, c = 0, i = 1;
 		bool sc = true, sr = true;
 		cin >> n;
-		while (i <= n * n) {
-			if (c >= n || MAP[r][c] != 0) sc = !sc;
+		int en = n * n;
+		while (i <= en) {
+			if (sc && sr) {
+				MAP[r][c++] = i++;
+				if (MAP[r][c] != 0 || c >= n) {
+					c--;
+					r++;
+					sc = !sc;
+				}
+			}
+			else if (!sc && sr) {
+				MAP[r++][c] = i++;
+				if (MAP[r][c] != 0 || r >= n) {
+					c--;
+					r--;
+					sr = !sr;
+				}
+			}
+			else if (!sc && !sr) {
+				MAP[r][c--] = i++;
+				if (MAP[r][c] != 0 || c < 0) {
+					c++;
+					r--;
+					sc = !sc;
+				}
+			}
+			else if (sc && !sr) {
+				MAP[r--][c] = i++;
+				if (MAP[r][c] != 0 || r < 0) {
+					c++;
+					r++;
+					sr = !sr;
+				}
+			}
+
+		}
+
+		cout << "#" << tc << endl;
+		for (int i = 0; i < n; i++)
+		{
+			for (int j = 0; j < n; j++) cout << MAP[i][j] << " ";
+			cout << endl;
 		}
 
 	}
